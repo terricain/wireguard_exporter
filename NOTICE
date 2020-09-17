@@ -1,0 +1,9 @@
+Prometheus exporter for Wireguard metrics.
+Copyright 2020 Terry Cain <terry@terrys-home.co.uk>
+
+The following components are included in this product:
+
+Various exporter common items
+https://github.com/prometheus/node_exporter
+Copyright 2020 Prometheus
+Licensed under the Apache 2.0 License
