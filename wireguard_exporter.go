@@ -15,7 +15,7 @@ import (
 
 var CLI struct {
 	// TODO change address
-	WebListenAddress string `name:"web.listen-address" default:":9100" help:"Address on which to expose metrics and web interface."`
+	WebListenAddress string `name:"web.listen-address" default:":9586" help:"Address on which to expose metrics and web interface."`
 	WebTelemetryPath string `name:"web.telemetry-path" default:"/metrics" help:"Path under which to expose metrics."`
 	WebDisableExporterMetrics bool `name:"web.disable-exporter-metrics" default:"false" help:"Exclude metrics about the exporter itself (promhttp_*, process_*, go_*)."`
 	WebConfig string `name:"web.config" help:"[EXPERIMENTAL] Path to config yaml file that can enable TLS or authentication."`
