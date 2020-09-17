@@ -1,3 +1,4 @@
 .build
 .promu.yml
 wireguard_exporter
+dist

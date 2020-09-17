@@ -1,29 +1,62 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
+project_name: wireguard_exporter
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod download
-    # you may remove this if you don't need go generate
-    - go generate ./...
+    - go mod verify
 builds:
-  - env:
+  - id: default
+    env:
       - CGO_ENABLED=0
+    flags:
+      - -a
+    ldflags:
+      - -s
+      - -w
+      - -X github.com/prometheus/common/version.Version={{ .Version }}
+      - -X github.com/prometheus/common/version.Revision={{ .FullCommit }}
+      - -X github.com/prometheus/common/version.Branch=HEAD
+      - -X github.com/prometheus/common/version.BuildUser=root@github
+      - -X github.com/prometheus/common/version.BuildDate={{ time "20060102-15:04:05" }}
     goos:
       - linux
-      - windows
-      - darwin
+    goarch:
+      - amd64
+      - 386
+      - arm
+      - arm64
+      - mips
+      - mipsle
+      - mips64
+      - mips64le
+      - ppc64
+      - ppc64le
+      - s390x
+    goarm:
+      - 5
+      - 6
+      - 7
+    mod_timestamp: '{{ .CommitTimestamp }}'
+
 archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
+  - id: default
+    builds:
+      - default
+    name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}"
+    wrap_in_directory: true
+    format: tar.gz
+    files:
+      - LICENSE
+      - NOTICE
+
 checksum:
-  name_template: 'checksums.txt'
-snapshot:
-  name_template: "{{ .Tag }}-next"
+  name_template: 'sha256sums.txt'
+  algorithm: sha256
+
+release:
+  draft: true
+  prerelease: auto
+  name_template: '{{.Version}} / {{ time "2006-02-01" }}'
+
 changelog:
   sort: asc
   filters:
