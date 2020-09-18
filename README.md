@@ -49,6 +49,27 @@ wireguard_received_bytes_total{friendly_name="",interface="wg0",public_key="00mE
 wireguard_sent_bytes_total{friendly_name="",interface="wg0",public_key="00mEv1wMyzVFO/Hrt++uWlziR2ZChW5hf1N6ZxrrGRw="} 2.587097504e+09
 ```
 
+## systemd unit file
+
+Example unit file. Ideally I'd like to not require root privileges but I dont have the will to look into that for now.
+```
+[Unit]
+Description = Prometheus exporter for wireguard metrics
+Documentation = https://github.com/terrycain/wireguard_exporter
+After = network.target
+
+[Service]
+Restart = always
+User = root
+Group = root
+ExecStart = /usr/local/bin/wireguard_exporter --wireguard.friendly-name-file=/etc/wireguard/users.csv
+WorkingDirectory = /
+RestartSec = 30s
+
+[Install]
+WantedBy = multi-user.target
+```
+
 ## TODO
 
 * Add badges :D
